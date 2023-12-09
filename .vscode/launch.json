@@ -1,0 +1,32 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Huidige bestand",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "cwd": "${fileDirname}"
+        },
+        {
+            "name": "Python: Teleport",
+            "type": "python",
+            "request": "launch",
+            "program": "teleport.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/synacor"
+        },
+        {
+            "name": "Python: Run Synacor",
+            "type": "python",
+            "request": "launch",
+            "program": "run.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/synacor"
+        }
+    ]
+}

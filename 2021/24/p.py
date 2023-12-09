@@ -2,7 +2,6 @@
 import sys
 sys.path.append('..')
 from common import *
-from collections import defaultdict
 
 # part 1: 91297395919993: 76s
 # part 2: 71131151917891: 76s
