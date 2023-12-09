@@ -1,0 +1,12 @@
+b = red coin = 2
+e = corroded coin = 3
+c = shiny coin = 5
+d = concave coin = 7
+a = blue coin = 9
+
+a + b * c^2 + d^3 - e = 399
+a + b * c^2      - e = 399 - 7^3 = 56
+a                - e = 56 - 2 * 5^2 = 6
+9                - 3 = 6
+
+9 + 2 * 5^2 + 7^3 - 3 = 399
