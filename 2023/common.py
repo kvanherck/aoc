@@ -63,6 +63,12 @@ def inputArray(valueMapping={'.': 0, '#': 1}):
     return rows
 
 
+def inputGrid(defaultValue=None):
+    g = Grid.fromListOfLists(inputLines())
+    g.defaultValue = defaultValue
+    return g
+
+
 def bfs(start, destination=None, destFunc=None, graph=None, edgeFunc=None):
     if destFunc is None:
         assert destination is not None
@@ -121,3 +127,84 @@ def dijkstra(start, destination=None, destFunc=None, graph=None, costFunc=None, 
                 costs[newNode] = newCost
                 prev[newNode] = currentNode
                 heapq.heappush(queue, (newCost, newNode))
+
+
+class Grid:
+    def __init__(self, n, m, defaultValue=None):
+        self.n = n
+        self.m = m
+        self.defaultValue = defaultValue
+        self.data = [[defaultValue] * m for _ in range(n)]
+
+    @classmethod
+    def fromListOfLists(cls, lol):
+        lol = list(lol)
+        n = len(lol)
+        m = len(lol[0])
+        g = cls(n, m)
+        for i, r in enumerate(lol):
+            for j, c in enumerate(r):
+                g[i, j] = c
+        return g
+
+    def __getitem__(self, key):
+        if type(key) != tuple:
+            raise TypeError
+        if len(key) != 2:
+            raise TypeError
+        r, c = key
+        if type(r) != int:
+            raise TypeError
+        if type(c) == slice:
+            a = [self[r, i] for i in range(c.start, c.stop, c.step or 1)]
+            if type(self.defaultValue) == str:
+                return ''.join(a)
+            return a
+        if type(c) != int:
+            raise TypeError
+        if r < 0 or r >= self.n:
+            return self.defaultValue
+        if c < 0 or c >= self.m:
+            return self.defaultValue
+        return self.data[r][c]
+
+    def __setitem__(self, key, value):
+        if type(key) != tuple:
+            raise TypeError
+        if len(key) != 2:
+            raise TypeError
+        r, c = key
+        if type(r) != int:
+            raise TypeError
+        if type(c) != int:
+            raise TypeError
+        if r < 0 or r >= self.n:
+            raise IndexError
+        if c < 0 or c >= self.m:
+            raise IndexError
+        self.data[r][c] = value
+
+    def expand(self, left=None, right=None, bottom=None, top=None, value=None):
+        if value is None:
+            value = self.defaultValue
+        if left:
+            for i in range(self.n):
+                self.data[i] = [value] * left + self.data[i]
+            self.m += left
+        if right:
+            for i in range(self.n):
+                self.data[i] = self.data[i] + [value] * right
+            self.m += right
+        if bottom:
+            self.data = [[value] * self.m for _ in range(bottom)] + self.data
+            self.n += bottom
+        if top:
+            self.data = self.data + [[value] * self.m for _ in range(top)]
+            self.n += top
+
+    def __str__(self):
+        lines = []
+        for row in self.data:
+            line = ''.join([str(c) for c in row])
+            lines.append(line)
+        return '\n'.join(lines)
